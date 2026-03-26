@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Galopin — Brasserie Rennaise depuis 1965</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --noir: #0d0b09;
+    --brun: #1a1209;
+    --or: #c9a84c;
+    --or-clair: #e8c97a;
+    --creme: #f5f0e8;
+    --rouge: #8b1a1a;
+    --gris: #6b6357;
+    --blanc: #faf8f4;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--noir);
+    color: var(--creme);
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ──── BARRE DE NAV ──── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(13,11,9,0.95), transparent);
+    transition: background 0.3s;
+  }
+  nav.scrolled { background: rgba(13,11,9,0.98); border-bottom: 1px solid rgba(201,168,76,0.2); }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    color: var(--or);
+    text-decoration: none;
+  }
+  .nav-logo span { font-style: italic; color: var(--creme); }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--creme);
+    text-decoration: none;
+    opacity: 0.75;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--or); }
+
+  .nav-cta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--or);
+    border: 1px solid var(--or);
+    padding: 9px 22px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover { background: var(--or); color: var(--noir); }
+
+  /* ──── HERO ──── */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 60%, rgba(139,26,26,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 30%, rgba(201,168,76,0.06) 0%, transparent 50%),
+      linear-gradient(160deg, #0d0b09 0%, #1a1209 40%, #0d0b09 100%);
+  }
+
+  /* Motif boiserie Art Nouveau */
+  .hero-ornament {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(201,168,76,0.03) 0px, transparent 1px, transparent 80px, rgba(201,168,76,0.03) 81px),
+      repeating-linear-gradient(0deg, rgba(201,168,76,0.03) 0px, transparent 1px, transparent 80px, rgba(201,168,76,0.03) 81px);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; padding: 0 20px;
+    animation: fadeUp 1.2s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem; font-weight: 400;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: ''; display: block; width: 40px; height: 1px; background: var(--or); opacity: 0.5;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: 400; line-height: 0.9;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .hero-title em { font-style: italic; color: var(--or); display: block; font-size: 0.6em; line-height: 1.1; }
+
+  .hero-subtitle {
+    font-size: 1.2rem; font-style: italic;
+    color: rgba(245,240,232,0.55);
+    margin: 28px 0 48px;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-badges {
+    display: flex; gap: 40px; justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+  }
+  .hero-badges span::before { content: '— '; color: var(--or); }
+
+  .hero-scroll {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(245,240,232,0.35);
+    animation: pulse 2.5s ease infinite;
+  }
+  .hero-scroll::after {
+    content: ''; display: block; width: 1px; height: 50px;
+    background: linear-gradient(to bottom, var(--or), transparent);
+  }
+  @keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* ──── SECTION GÉNÉRIQUE ──── */
+  section { padding: 100px 60px; }
+
+  .section-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; font-weight: 400;
+    letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::after { content: ''; flex: 0 0 50px; height: 1px; background: var(--or); opacity: 0.4; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 400; line-height: 1.1;
+    margin-bottom: 28px;
+  }
+  .section-title em { font-style: italic; color: var(--or); }
+
+  /* ──── IDENTITÉ ──── */
+  .identity {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center; max-width: 1200px; margin: 0 auto;
+  }
+
+  .identity-text p {
+    font-size: 1.2rem; line-height: 1.9;
+    color: rgba(245,240,232,0.7);
+    margin-bottom: 20px;
+  }
+
+  .identity-stats {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
+    margin-top: 50px;
+  }
+  .stat {
+    border-top: 1px solid rgba(201,168,76,0.25);
+    padding-top: 20px;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-style: italic;
+    color: var(--or); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+  }
+
+  .identity-visual {
+    position: relative;
+  }
+  .identity-card {
+    background: linear-gradient(135deg, #1a1209 0%, #241808 100%);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .identity-card::before {
+    content: ''; position: absolute; top: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.06), transparent 70%);
+  }
+  .quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 8rem; line-height: 0.6;
+    color: var(--or); opacity: 0.15;
+    margin-bottom: 20px;
+  }
+  .identity-card blockquote {
+    font-size: 1.3rem; font-style: italic; line-height: 1.8;
+    color: rgba(245,240,232,0.8);
+    margin-bottom: 30px;
+  }
+  .identity-card cite {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--or);
+  }
+
+  /* ──── CARTE / MENU ──── */
+  .menu-section { background: #0f0c08; }
+  .menu-inner { max-width: 1100px; margin: 0 auto; }
+
+  .menu-tabs {
+    display: flex; gap: 0; margin-bottom: 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+  }
+  .menu-tab {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; font-weight: 400;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 30px; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: rgba(245,240,232,0.4);
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .menu-tab.active {
+    color: var(--or);
+    border-bottom-color: var(--or);
+  }
+  .menu-tab:hover { color: var(--creme); }
+
+  .menu-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  }
+
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid rgba(245,240,232,0.06);
+    gap: 20px;
+  }
+  .menu-item:last-child { border-bottom: none; }
+
+  .menu-item-info { flex: 1; }
+  .menu-item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 400;
+    margin-bottom: 5px; color: var(--creme);
+  }
+  .menu-item-desc {
+    font-size: 0.9rem; font-style: italic;
+    color: rgba(245,240,232,0.4);
+    line-height: 1.5;
+  }
+  .menu-item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-style: italic;
+    color: var(--or); white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .menu-divider {
+    grid-column: 1 / -1;
+    display: flex; align-items: center; gap: 20px;
+    padding: 30px 0 20px;
+  }
+  .menu-divider span {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; font-style: italic;
+    color: var(--or); white-space: nowrap;
+  }
+  .menu-divider::before, .menu-divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  /* ──── ATMOSPHÈRE ──── */
+  .atmosphere-section { background: var(--brun); }
+  .atmo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 20px; max-width: 1200px; margin: 0 auto;
+  }
+  .atmo-card {
+    background: linear-gradient(160deg, #1c1208, #120d06);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 40px 36px;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .atmo-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-4px); }
+  .atmo-card.featured {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #1c1208, #2a1a08);
+    border-color: rgba(201,168,76,0.2);
+  }
+  .atmo-icon {
+    font-size: 2rem; margin-bottom: 20px; display: block;
+  }
+  .atmo-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 400;
+    margin-bottom: 14px; color: var(--creme);
+  }
+  .atmo-card p {
+    font-size: 1rem; font-style: italic; line-height: 1.8;
+    color: rgba(245,240,232,0.55);
+  }
+  .atmo-detail {
+    margin-top: 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--or); opacity: 0.7;
+  }
+
+  /* ──── INFOS PRATIQUES ──── */
+  .info-section {
+    background: #0d0b09;
+    padding: 100px 60px;
+  }
+  .info-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  }
+
+  .info-block { }
+  .info-block h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.68rem; font-weight: 400;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .info-row {
+    display: flex; justify-content: space-between;
+    padding: 13px 0; border-bottom: 1px solid rgba(245,240,232,0.06);
+    font-size: 1rem;
+  }
+  .info-row .label { color: rgba(245,240,232,0.45); font-style: italic; }
+  .info-row .value { color: var(--creme); text-align: right; }
+
+  .info-adresse {
+    margin-top: 30px;
+    padding: 24px;
+    border: 1px solid rgba(201,168,76,0.12);
+    background: rgba(201,168,76,0.03);
+  }
+  .info-adresse p { font-size: 1rem; line-height: 2; color: rgba(245,240,232,0.6); font-style: italic; }
+  .info-adresse strong { color: var(--creme); font-style: normal; font-weight: 400; }
+
+  /* ──── RÉSERVATION TEASER ──── */
+  .resa-section {
+    background: linear-gradient(160deg, #1a0f08, #0d0b09);
+    padding: 100px 60px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .resa-section::before {
+    content: ''; position: absolute;
+    top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.06), transparent 70%);
+    pointer-events: none;
+  }
+  .resa-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+  .resa-inner p {
+    font-size: 1.15rem; font-style: italic;
+    color: rgba(245,240,232,0.55); margin-bottom: 40px; line-height: 1.8;
+  }
+  .resa-phone {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; color: var(--or);
+    letter-spacing: 0.05em; margin-bottom: 12px; display: block;
+  }
+  .resa-phone-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(245,240,232,0.35); margin-bottom: 40px; display: block;
+  }
+
+  .btn-gold {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--noir); background: var(--or);
+    padding: 16px 40px; text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    margin: 0 8px;
+  }
+  .btn-gold:hover { background: var(--or-clair); transform: translateY(-2px); }
+
+  .btn-outline {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--or);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 15px 40px; text-decoration: none;
+    transition: all 0.2s;
+    margin: 0 8px;
+  }
+  .btn-outline:hover { border-color: var(--or); background: rgba(201,168,76,0.06); }
+
+  /* Note version gratuite */
+  .free-notice {
+    background: rgba(139,26,26,0.08);
+    border: 1px solid rgba(139,26,26,0.2);
+    border-radius: 2px;
+    padding: 14px 20px; margin-top: 50px;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.35);
+  }
+  .free-notice::before { content: '⚙'; color: rgba(201,168,76,0.4); }
+
+  /* ──── FOOTER ──── */
+  footer {
+    background: #080705;
+    padding: 60px 60px 40px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px;
+    margin-bottom: 50px;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--or);
+    margin-bottom: 20px; display: block;
+  }
+  .footer-logo span { font-style: italic; color: var(--creme); }
+  .footer-text {
+    font-size: 0.95rem; font-style: italic;
+    color: rgba(245,240,232,0.35); line-height: 1.8;
+  }
+  footer h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem; font-weight: 400;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--or); margin-bottom: 20px;
+  }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 10px; }
+  footer ul a {
+    font-size: 0.95rem; font-style: italic;
+    color: rgba(245,240,232,0.4); text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer ul a:hover { color: var(--creme); }
+
+  .footer-bottom {
+    max-width: 1100px; margin: 0 auto;
+    padding-top: 24px; border-top: 1px solid rgba(245,240,232,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.62rem; letter-spacing: 0.15em;
+    color: rgba(245,240,232,0.2);
+  }
+
+  /* ──── SÉPARATEUR OR ──── */
+  .ornement {
+    text-align: center; padding: 0; margin: 0;
+    color: var(--or); font-size: 1.4rem; opacity: 0.4;
+    letter-spacing: 0.3em;
+  }
+
+  /* ──── RESPONSIVE MINIMAL ──── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .identity { grid-template-columns: 1fr; gap: 50px; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .atmo-grid { grid-template-columns: 1fr; }
+    .atmo-card.featured { grid-column: span 1; }
+    .info-inner { grid-template-columns: 1fr; gap: 50px; }
+    .footer-inner { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 50px 24px 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Le <span>Galopin</span></a>
+  <ul class="nav-links">
+    <li><a href="#identite">La Maison</a></li>
+    <li><a href="#carte">La Carte</a></li>
+    <li><a href="#atmosphere">L'Ambiance</a></li>
+    <li><a href="#infos">Infos</a></li>
+  </ul>
+  <a href="tel:0299315596" class="nav-cta">Réserver</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-ornament"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Rennes · Avenue Jean Janvier · Depuis 1965</div>
+    <h1 class="hero-title">
+      Le Galopin
+      <em>Brasserie Rennaise</em>
+    </h1>
+    <p class="hero-subtitle">Poissons, fruits de mer & viandes — dans un cadre chic et décontracté</p>
+    <div class="hero-badges">
+      <span>Gault & Millau</span>
+      <span>Fruits de mer</span>
+      <span>Cuisine de saison</span>
+      <span>Salon privé</span>
+    </div>
+  </div>
+  <div class="hero-scroll">Découvrir</div>
+</section>
+
+<!-- IDENTITÉ -->
+<section id="identite" style="padding: 120px 60px;">
+  <div class="identity">
+    <div class="identity-text">
+      <div class="section-label">La Maison</div>
+      <h2 class="section-title">Une institution <em>rennaise</em></h2>
+      <p>
+        Depuis 1965, Le Galopin s'est imposé comme l'une des adresses incontournables de Rennes. Niché avenue Jean Janvier, à deux pas de la gare, ce restaurant perpétue avec passion la grande tradition des brasseries françaises.
+      </p>
+      <p>
+        Chaque jour, notre équipe sélectionne les meilleurs poissons, fruits de mer et viandes pour composer une carte qui évolue au fil des saisons et des arrivages.
+      </p>
+      <div class="identity-stats">
+        <div class="stat">
+          <div class="stat-num">1965</div>
+          <div class="stat-label">Année de fondation</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Couverts en salon privé</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">12/20</div>
+          <div class="stat-label">Note Gault & Millau</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.5★</div>
+          <div class="stat-label">Note Google</div>
+        </div>
+      </div>
+    </div>
+    <div class="identity-visual">
+      <div class="identity-card">
+        <div class="quote-mark">"</div>
+        <blockquote>
+          Une brasserie absolument exemplaire — bois mouluré et verni, belles assises rouges, élégant comptoir et service efficace. Le répertoire est classique et bien respecté.
+        </blockquote>
+        <cite>— Gault & Millau</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARTE -->
+<section id="carte" class="menu-section" style="padding: 100px 60px;">
+  <div class="menu-inner">
+    <div class="section-label">La Carte</div>
+    <h2 class="section-title">Ce qui <em>régale</em></h2>
+
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="showTab(this, 'mer')">Fruits de mer</button>
+      <button class="menu-tab" onclick="showTab(this, 'poisson')">Poissons</button>
+      <button class="menu-tab" onclick="showTab(this, 'viande')">Viandes</button>
+      <button class="menu-tab" onclick="showTab(this, 'dessert')">Desserts</button>
+    </div>
+
+    <div id="tab-mer" class="menu-grid tab-content">
+      <div class="menu-divider"><span>Entrées & Plateaux</span></div>
+
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Langoustines & mayonnaise maison</div>
+          <div class="menu-item-desc">Les 12 pièces</div>
+        </div>
+        <div class="menu-item-price">26,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Homard (600 g env.) — froid mayonnaise</div>
+          <div class="menu-item-desc">Entier ou demi</div>
+        </div>
+        <div class="menu-item-price">82 € / 41 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Plateau Grand-Bé</div>
+          <div class="menu-item-desc">4 huîtres, 150 g de langoustines, ½ homard 300 g</div>
+        </div>
+        <div class="menu-item-price">54,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Céviché de bar & langoustines</div>
+          <div class="menu-item-desc">Huile d'olive, citron vert, piment, herbes fraîches</div>
+        </div>
+        <div class="menu-item-price">22,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Bulots aïoli</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">11,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Bigorneaux</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">9,50 €</div>
+      </div>
+    </div>
+
+    <div id="tab-poisson" class="menu-grid tab-content" style="display:none;">
+      <div class="menu-divider"><span>Plats poissons</span></div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Filet de Sole</div>
+          <div class="menu-item-desc">Beurre Bordier à la truffe, pommes de Noirmoutier</div>
+        </div>
+        <div class="menu-item-price">40,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Poisson du moment</div>
+          <div class="menu-item-desc">Selon arrivage du marché</div>
+        </div>
+        <div class="menu-item-price">Voir ardoise</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Pâtes au saumon</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">13,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Fish & Chips</div>
+          <div class="menu-item-desc">Frites maison</div>
+        </div>
+        <div class="menu-item-price">13,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Tartare de saumon haché au couteau</div>
+          <div class="menu-item-desc">Frites maison</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+    </div>
+
+    <div id="tab-viande" class="menu-grid tab-content" style="display:none;">
+      <div class="menu-divider"><span>Plats viandes</span></div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Ris de veau, sauce Madère</div>
+          <div class="menu-item-desc">Médaillons croustillants, champignons, arancini à la truffe</div>
+        </div>
+        <div class="menu-item-price">36,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Magret de canard au poivre</div>
+          <div class="menu-item-desc">Poêlée de légumes verts</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Tête de veau sauce ravigote</div>
+          <div class="menu-item-desc">Légumes pot-au-feu (sup. 7 €)</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Tartare de bœuf haché au couteau</div>
+          <div class="menu-item-desc">Frites maison</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Rognon de veau, graine de moutarde</div>
+          <div class="menu-item-desc">Purée de pommes de terre</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Poulet fermier rôti</div>
+          <div class="menu-item-desc">Frites maison</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+    </div>
+
+    <div id="tab-dessert" class="menu-grid tab-content" style="display:none;">
+      <div class="menu-divider"><span>Desserts</span></div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Kouign-amann artisanal tiède</div>
+          <div class="menu-item-desc">Sauce chocolat</div>
+        </div>
+        <div class="menu-item-price">8,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Profiteroles vanille Bourbon</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">8,00 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Mousse au chocolat</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">5,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Île flottante</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">5,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Tarte myrtille & mousse chocolat</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">5,50 €</div>
+      </div>
+      <div class="menu-item">
+        <div class="menu-item-info">
+          <div class="menu-item-name">Pavlova aux fruits rouges</div>
+          <div class="menu-item-desc">—</div>
+        </div>
+        <div class="menu-item-price">—</div>
+      </div>
+    </div>
+
+    <p style="margin-top:40px; font-style:italic; color:rgba(245,240,232,0.3); font-size:0.9rem; text-align:center;">
+      Carte indicative — les prix et plats évoluent selon les saisons et les arrivages.
+    </p>
+  </div>
+</section>
+
+<!-- ATMOSPHÈRE -->
+<section id="atmosphere" class="atmosphere-section">
+  <div style="max-width:1200px; margin:0 auto; margin-bottom:60px;">
+    <div class="section-label">L'Ambiance</div>
+    <h2 class="section-title">Un cadre <em>d'exception</em></h2>
+  </div>
+  <div class="atmo-grid">
+    <div class="atmo-card featured">
+      <span class="atmo-icon">🏛</span>
+      <h3>La Salle</h3>
+      <p>Bois mouluré et verni, assises rouges caractéristiques, comptoir élégant… Le Galopin perpétue l'esthétique des grandes brasseries parisiennes en plein cœur de Rennes. Un cadre chic et décontracté où l'on se sent immédiatement à l'aise.</p>
+      <div class="atmo-detail">Climatisée · Accessible PMR</div>
+    </div>
+    <div class="atmo-card">
+      <span class="atmo-icon">🔒</span>
+      <h3>Salon Privatif</h3>
+      <p>Un espace intime et confidentiel pour vos repas d'affaires, séminaires ou cérémonies familiales. Jusqu'à 50 couverts.</p>
+      <div class="atmo-detail">10 à 50 personnes</div>
+    </div>
+    <div class="atmo-card">
+      <span class="atmo-icon">🚗</span>
+      <h3>Service Voiturier</h3>
+      <p>Pour simplifier votre venue, un service voiturier est à votre disposition dès votre arrivée avenue Jean Janvier.</p>
+      <div class="atmo-detail">Inclus sur demande</div>
+    </div>
+    <div class="atmo-card">
+      <span class="atmo-icon">☀️</span>
+      <h3>Terrasse Extérieure</h3>
+      <p>Profitez des beaux jours en terrasse, idéalement située à deux pas de la gare et du cœur de Rennes.</p>
+      <div class="atmo-detail">Selon météo</div>
+    </div>
+  </div>
+</section>
+
+<!-- INFOS PRATIQUES -->
+<section id="infos" class="info-section">
+  <div style="max-width:1100px; margin:0 auto 60px;">
+    <div class="section-label">Informations</div>
+    <h2 class="section-title">Préparez <em>votre visite</em></h2>
+  </div>
+  <div class="info-inner">
+    <div class="info-block">
+      <h3>Horaires d'ouverture</h3>
+      <div class="info-row"><span class="label">Lundi – Vendredi</span><span class="value">12h–14h & 19h–23h</span></div>
+      <div class="info-row"><span class="label">Samedi</span><span class="value">19h–23h</span></div>
+      <div class="info-row"><span class="label">Dimanche</span><span class="value">Fermé</span></div>
+      <div class="info-row"><span class="label">Menu déjeuner</span><span class="value">à partir de 43,50 €</span></div>
+
+      <div class="info-adresse" style="margin-top:30px;">
+        <p>
+          <strong>21 Avenue Jean Janvier</strong><br>
+          35000 Rennes<br>
+          À deux pas de la gare SNCF<br>
+          Métro · Hôtels · Cinémas · Théâtre
+        </p>
+      </div>
+    </div>
+    <div class="info-block">
+      <h3>Contact & Services</h3>
+      <div class="info-row"><span class="label">Téléphone</span><span class="value">02 99 31 55 96</span></div>
+      <div class="info-row"><span class="label">Réservation</span><span class="value">Recommandée</span></div>
+      <div class="info-row"><span class="label">Voiturier</span><span class="value">Inclus</span></div>
+      <div class="info-row"><span class="label">Groupes</span><span class="value">Jusqu'à 50 couverts</span></div>
+      <div class="info-row"><span class="label">Paiement</span><span class="value">CB · Tit. restaurant · AmEx</span></div>
+      <div class="info-row"><span class="label">Accessibilité</span><span class="value">PMR</span></div>
+      <div class="info-row"><span class="label">Menu enfant</span><span class="value">Disponible</span></div>
+      <div class="info-row"><span class="label">À emporter</span><span class="value">Oui</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÉSERVATION -->
+<section class="resa-section">
+  <div class="resa-inner">
+    <div class="section-label" style="justify-content:center; margin-bottom:30px;">Réservation</div>
+    <h2 class="section-title">Réservez <em>votre table</em></h2>
+    <p>Le Galopin est ouvert du lundi au vendredi, le soir le samedi. Nous vous conseillons de réserver pour garantir votre place.</p>
+    <a href="tel:0299315596" class="resa-phone">02 99 31 55 96</a>
+    <span class="resa-phone-label">Du lundi au samedi · 10h – 22h</span>
+    <div>
+      <a href="tel:0299315596" class="btn-gold">Appeler maintenant</a>
+      <a href="mailto:contact@legalopin.fr" class="btn-outline">Envoyer un e-mail</a>
+    </div>
+    <div class="free-notice">
+      Réservation en ligne non disponible — contactez-nous directement
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <span class="footer-logo">Le <span>Galopin</span></span>
+      <p class="footer-text">Brasserie rennaise depuis 1965. Poissons, fruits de mer & viandes dans un cadre chic et décontracté, avenue Jean Janvier à Rennes.</p>
+    </div>
+    <div>
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#identite">La Maison</a></li>
+        <li><a href="#carte">La Carte</a></li>
+        <li><a href="#atmosphere">L'Ambiance</a></li>
+        <li><a href="#infos">Infos pratiques</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Nous trouver</h4>
+      <ul>
+        <li><a href="#">21 av. Jean Janvier</a></li>
+        <li><a href="#">35000 Rennes</a></li>
+        <li><a href="tel:0299315596">02 99 31 55 96</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Facebook</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Le Galopin · Rennes</span>
+    <span>Site vitrine — version gratuite</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Tabs menu
+  function showTab(btn, id) {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).style.display = 'grid';
+  }
+</script>
+
+</body>
+</html>
